@@ -243,14 +243,20 @@ def construir_base_conocimiento():
     from langchain_chroma import Chroma
     from langchain_huggingface import HuggingFaceEmbeddings
 
-    import shutil
+    import chromadb
 
-    # Reindexación desde cero: si quedara una colección anterior, la nueva
-    # corrida duplicaría chunks (el corpus completo procesa en menos de un
-    # segundo, así que reconstruir es barato y mantiene el índice siempre
-    # sincronizado con los archivos vigentes de data/)
+    # Reindexación desde cero: el índice debe reflejar siempre los archivos
+    # vigentes de data/ (el corpus se reconstruye en menos de un segundo).
+    # Los documentos se borran de la colección SIN eliminar la carpeta: si este
+    # mismo runtime ya había abierto la base (por ejemplo, al re-ejecutar el
+    # notebook), eliminar el archivo SQLite por debajo de una conexión abierta
+    # la deja inservible y la reinicialización falla con "(code: 14) unable to
+    # open database file". Borrar la colección es lo que hace un sistema de
+    # producción con un índice que se reconstruye: se desactiva, no se raspa.
     if os.path.isdir(RUTA_CHROMA):
-        shutil.rmtree(RUTA_CHROMA)
+        cliente_previo = chromadb.PersistentClient(path=RUTA_CHROMA)
+        for coleccion in cliente_previo.list_collections() or []:
+            cliente_previo.delete_collection(coleccion.name)
 
     documentos = []
     fuentes = {
