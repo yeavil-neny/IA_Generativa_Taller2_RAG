@@ -1,0 +1,20 @@
+# Dependencias del sistema RAG de EcoMarket (Taller Práctico #2)
+# Probadas en Google Colab (Python 3.12) y en Python 3.13 local.
+#
+# Framework RAG (script de referencia del taller: LangChain)
+langchain>=0.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-core>=0.3
+langchain-openai>=0.3
+langchain-huggingface>=0.3
+langchain-chroma>=0.1
+
+# Base de datos vectorial (Fase 1)
+chromadb>=0.5
+
+# Modelo de embeddings open-source (Fase 1)
+sentence-transformers>=3.0
+
+# Carga de claves locales (script, modo .env)
+python-dotenv>=1.0
