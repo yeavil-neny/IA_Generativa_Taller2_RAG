@@ -33,7 +33,7 @@ El modelo de embeddings no procesa documentos completos: procesa fragmentos cort
 
 | Estrategia | Cómo funciona | Ventajas | Desventajas en este caso |
 |---|---|---|---|
-| **Tamaño fijo** | Corta cada N caracteres o tokens y solapa (overlap) | Simple, rápido, homogéneo para índices grandes | Puede cortar reglas, filas o pares Q-A por la mitad; con corpora heterogéneos produce chunks de calidad arbitraria |
+| **Tamaño fijo** | Corta cada N caracteres o tokens y solapa (overlap) | Simple, rápido, homogéneo para índices grandes | Puede cortar reglas, filas o pares Q-A por la mitad; con documentos de tipos muy distintos entre sí produce chunks de calidad arbitraria |
 | **Por párrafos / delimitadores** | Corta en separadores estructurales (`\n\n`, fin de fila, fin de objeto) | Respeta la unidad semántica natural de cada formato | Puede producir chunks demasiado largos o demasiado cortos; por sí sola no maneja párrafos gigantes |
 | **Recursiva con jerarquía de separadores** | Intenta los separadores más fuertes (`\n\n`) y, si el trozo sigue siendo grande, baja a separadores más finos (`\n`, `.`, `»)`, con overlap | Compromiso estándar de la industria: respeta la estructura casi siempre y garantiza un tamaño máximo | Requiere calibrar tamaño y overlap con el modelo de embeddings elegido |
 
